@@ -1,6 +1,11 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
+    /* background-color: #07329E; */
+    background-image: url('../assets/back.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     margin: 0;
     padding: 0;
     display: flex;
@@ -11,12 +16,16 @@ body {
 }
 
 .container {
-    background-color: #ffffff;
+    background-color: #EAF0FF;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px 30px;
-    max-width: 400px;
-    width: 100%;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
     text-align: center;
 }
 
@@ -27,9 +36,16 @@ h1 {
 }
 
 h2 {
-    font-size: 1.2rem;
-    color: #34495e;
+    font-size: 16px;
+    font-weight: 100;
+    color: #07329E;
     margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    align-self: flex-start;
+    justify-self: flex-start;
 }
 
 input[type="text"],
@@ -46,14 +62,21 @@ input[type="file"] {
     transition: border-color 0.3s ease;
 }
 
+
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="file"]:focus {
     border-color: #3498db;
 }
 
+input[type="file"] {
+    border: 1px dashed #dcdde1;
+   
+}
+
+
 button {
-    background-color: #3498db;
+    background-color: #07329E;
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -61,16 +84,16 @@ button {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%;
     margin-top: 20px;
+    width: 50%;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: rgb(8, 50, 78)
 }
 
 button:active {
-    background-color: #1c598a;
+    background-color: rgb(8, 50, 78)
 }
 
 button:disabled {
@@ -92,6 +115,7 @@ button:disabled {
 #status-list {
 
     max-height: 100px;
+    width: 70%;
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow-y: auto;

@@ -10,11 +10,19 @@
 <body>
     
 
-    <div class="container">
-        <h1>Automação - Cadastro de Novos Usuários MIPI</h1>
+    <div class="container" >
+        <img width="80px"  src="../assets/maistechlogo.png" style="position: absolute; top: 10px; left: 30px;">
+        <span style="width: 70px; height: 70px; margin: 0px auto; display: flex; align-items: center; justify-content: center; border-radius: 100%; background-color: #BCCAEC;"><img width="40px" height="40px" src="../assets/Icons.png"></span>
+        <div>
+             <h1 style="font-size: 20px; margin: 0; color: #07329E;">Automação</h1>
+             <h1 style="font-size: 20px; margin: 0; color: #07329E;">Cadastro de Novos Usuários MIPI</h1>
+        </div>
+       
         <div class="login-sistema">
             <h2>Dados para Login no sistema</h2>
+            <label for="user">Usuário</label>
             <input type="text" id="user" placeholder="Usuário">
+            <label for="password">Senha</label>
             <input type="password" id="password" placeholder="Senha">
             <h2>Arquivo com usuários</h2>
             <input type="file" id="fileInput">
@@ -24,11 +32,13 @@
 
         <button id="button-cadastrar-usuarios">Cadastrar Usuários</button>
     
+ 
         <h2>Status</h2>
         <ul id="status-list">
             <li id="status-item">Aguardando...</li>
             
         </ul>
+
     </div>    
 
     <script>
