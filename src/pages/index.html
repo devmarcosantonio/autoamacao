@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Automation</title>
+
+</head>
+<body>
+    
+
+    <div class="container">
+        <h1>Automação - Cadastro de Novos Usuários MIPI</h1>
+        <div class="login-sistema">
+            <h2>Dados para Login no sistema</h2>
+            <input type="text" id="user" placeholder="Usuário">
+            <input type="password" id="password" placeholder="Senha">
+            <h2>Arquivo com usuários</h2>
+            <input type="file" id="fileInput">
+        </div>
+
+        
+
+        <button id="button-cadastrar-usuarios">Cadastrar Usuários</button>
+    
+        <h2>Status</h2>
+        <ul id="status-list">
+            <li id="status-item">Aguardando...</li>
+            
+        </ul>
+    </div>    
+
+    <script>
+        const xlsx = require('xlsx');
+        const fs = require('fs');
+        const { ipcRenderer } = require('electron');
+   
+
+        function lerExcelParaObjeto(caminhoArquivo) {
+            // Lê o arquivo Excel
+            const workbook = xlsx.readFile(caminhoArquivo);
+
+            // Pega o nome da primeira aba (sheet)
+            const nomePrimeiraAba = workbook.SheetNames[0];
+
+            // Pega os dados da primeira aba
+            const planilha = workbook.Sheets[nomePrimeiraAba];
+
+            // Converte os dados em um array de objetos
+            const dados = xlsx.utils.sheet_to_json(planilha);
+
+            return dados;
+        }
+
+        let dadosExcel = [];
+
+        const arquivos = document.getElementById('fileInput').addEventListener('change', function(event) {
+            const arquivo = event.target.files[0];
+            if (arquivo) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const arrayBuffer = event.target.result;
+                    const workbook = xlsx.read(arrayBuffer, { type: 'array' });
+                    const nomePrimeiraAba = workbook.SheetNames[0];
+                    const planilha = workbook.Sheets[nomePrimeiraAba];
+                    const dados = xlsx.utils.sheet_to_json(planilha);
+                    dadosExcel = dados; // Armazena os dados lidos do Excel na variável global
+                };
+                reader.readAsArrayBuffer(arquivo);
+            } else {
+                console.log('Nenhum arquivo selecionado.');
+            }
+        });
+
+        const user = document.getElementById('user');
+        const password = document.getElementById('password');
+
+        const button = document.querySelector('#button-cadastrar-usuarios');
+
+        button.addEventListener('click', function() {
+            const usuario = user.value;
+            const senha = password.value;
+            const fileInput = document.getElementById('fileInput');
+            const arquivoSelecionado = fileInput.files[0];
+
+            console.log("dadosExcel", dadosExcel);
+
+            if (usuario && senha && arquivoSelecionado) {
+
+                const dados = {
+                    dadosExcel,
+                    usuario,   
+                    senha
+                }
+                
+                ipcRenderer.send('start-automation', dados); // Envia os dados para o processo principal
+           
+            } else {
+                alert('Por favor, preencha todos os campos e selecione um arquivo.');
+            }
+        });
+
+        ipcRenderer.on('status', (event, message) => {
+            
+            const statusList = document.getElementById('status-list');
+            const statusItem = document.createElement('li');
+            statusItem.textContent = message;
+            statusList.appendChild(statusItem);
+        });
+
+    </script>
+    
+</body>
+</html>
